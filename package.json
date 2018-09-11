@@ -1,0 +1,16 @@
+{
+  "name": "clean-code-js",
+  "version": "1.0.0",
+  "description": "Clean Code labs in native (vanilla) Javascript.",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Geert Guldentops",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^23.5.0"
+  },
+  "dependencies": {
+    "moment": "^2.22.2"
+  }
+}
