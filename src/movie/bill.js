@@ -1,5 +1,9 @@
 module.exports = class Bill {
 
+    constructor() {
+        this.purchaseTotal = 0;
+    }
+
     /**
      * (1) New customers arrive at your ticket booth and tell you what movie they'd like to see (so keep it in mind!)
      *
@@ -19,7 +23,7 @@ module.exports = class Bill {
      * @param student true if the ticket buyer is a student
      */
     addTicket(age, student) {
-
+        this.purchaseTotal += student ? 8.0 : 11.0;
     }
 
     /**
@@ -28,6 +32,6 @@ module.exports = class Bill {
      * @return total in dollars.
      */
     finishPurchase() {
-
+        return this.purchaseTotal;
     }
 };
