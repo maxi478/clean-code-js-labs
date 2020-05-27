@@ -1,3 +1,5 @@
+const { Ticket } = require('./ticket');
+
 class Bill {
 
     /**
@@ -26,7 +28,8 @@ class Bill {
      * @param student true if the ticket buyer is a student
      */
     addTicket(age, student) {
-        let basePrice = this.calculateBasePrice(age,student);
+        let defaultTicket = new Ticket(age,student);
+        let basePrice = defaultTicket.calculateBaseTicketPrice();
         let basePriceWeekDay = basePrice + this.calculateWeekDayDiscount();
         let variablePriceAddOn = this.calculateVariablePriceAddOn();
         
@@ -50,7 +53,6 @@ class Bill {
 
     calculateBasePrice(age, student){
         let beginPrice = 11.0
-        
         if (student) {
             beginPrice = 8.0;
         }
