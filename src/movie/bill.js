@@ -1,5 +1,5 @@
 const { Ticket } = require('./ticket');
-const { Calculator } = require('./calculator');
+const { BaseCalculator, WeekDayDiscountCalculator, VariablePriceCalculator } = require('./calculator');
 
 class Bill {
 
@@ -13,7 +13,7 @@ class Bill {
      */
 
     ticketBasePrices = [];
-    variablePrices =[];
+    variablePrices = [];
 
     startPurchase(runtime, dayOfWeek, balcony, threeD) {
         this.runtime = runtime;
@@ -29,52 +29,20 @@ class Bill {
      * @param student true if the ticket buyer is a student
      */
     addTicket(age, student) {
-        let defaultTicket = new Ticket(age,student);
+        let defaultTicket = new Ticket(age, student);
         let defaultPrice = defaultTicket.calculateDefaultTicketPrice();
 
-        let weekdayDiscount = this.calculateWeekDayDiscount()
-        let baseCalculator = new Calculator(defaultPrice, weekdayDiscount);
+        let weekdayCalculator = new WeekDayDiscountCalculator(this.dayOfWeek);
+        let weekdayDiscount = weekdayCalculator.calculateWeekdayDiscount();
 
+        let baseCalculator = new BaseCalculator(defaultPrice, weekdayDiscount);
         let basePrice = baseCalculator.calculateBasePrice();
 
-        let variablePriceAddOn = this.calculateVariablePriceAddOn();
-        
+        let variableCalculator = new VariablePriceCalculator(this.threeD, this.runtime, this.balcony);
+        let variablePrice = variableCalculator.calculateVariablePrice();
+
         this.ticketBasePrices.push(basePrice);
-        this.variablePrices.push(variablePriceAddOn);
-    }
-
-    calculateVariablePriceAddOn(){
-        let extraPrice = 0.0;
-        if (this.threeD) {
-            extraPrice += 3.0;
-        }
-        if(this.runtime > 120){
-            extraPrice += 1.5;
-        }
-        if(this.balcony){
-            extraPrice +=2.0;
-        }
-        return extraPrice;
-    }
-
-    calculateWeekDayDiscount(){
-        let weekdayDiscount = 0;
-        switch(this.dayOfWeek) {
-            case "MONDAY":
-            case "TUESDAY":
-            case "WEDNESDAY":
-              break;
-            case "THURSDAY":
-              weekdayDiscount = -2.0
-              break;
-            case "FRIDAY":
-              break;
-            case "SATURDAY":
-            case "SUNDAY":
-              weekdayDiscount = 1.5
-              break;
-          }
-          return weekdayDiscount;
+        this.variablePrices.push(variablePrice);
     }
 
     /**
@@ -83,7 +51,7 @@ class Bill {
      * @return total in dollars.
      */
     finishPurchase() {
-        if(this.ticketBasePrices.length >= 20){
+        if (this.ticketBasePrices.length >= 20) {
             this.ticketBasePrices = this.ticketBasePrices.map(x => 6.0);
         }
         return this.ticketBasePrices.reduce((a, b) => a + b, 0) + this.variablePrices.reduce((a, b) => a + b, 0);
