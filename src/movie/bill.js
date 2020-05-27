@@ -1,4 +1,5 @@
 const { Ticket } = require('./ticket');
+const { Calculator } = require('./calculator');
 
 class Bill {
 
@@ -29,11 +30,16 @@ class Bill {
      */
     addTicket(age, student) {
         let defaultTicket = new Ticket(age,student);
-        let basePrice = defaultTicket.calculateBaseTicketPrice();
-        let basePriceWeekDay = basePrice + this.calculateWeekDayDiscount();
+        let defaultPrice = defaultTicket.calculateDefaultTicketPrice();
+
+        let weekdayDiscount = this.calculateWeekDayDiscount()
+        let baseCalculator = new Calculator(defaultPrice, weekdayDiscount);
+
+        let basePrice = baseCalculator.calculateBasePrice();
+
         let variablePriceAddOn = this.calculateVariablePriceAddOn();
         
-        this.ticketBasePrices.push(basePriceWeekDay);
+        this.ticketBasePrices.push(basePrice);
         this.variablePrices.push(variablePriceAddOn);
     }
 
@@ -51,38 +57,24 @@ class Bill {
         return extraPrice;
     }
 
-    calculateBasePrice(age, student){
-        let beginPrice = 11.0
-        if (student) {
-            beginPrice = 8.0;
-        }
-        if (age >= 65) {
-            beginPrice = 6.0;
-        }
-        if (age <= 13) {
-            beginPrice = 5.5;
-        }
-        return beginPrice;
-    }
-
     calculateWeekDayDiscount(){
-        let discountToAdd = 0;
+        let weekdayDiscount = 0;
         switch(this.dayOfWeek) {
             case "MONDAY":
             case "TUESDAY":
             case "WEDNESDAY":
               break;
             case "THURSDAY":
-              discountToAdd = -2.0
+              weekdayDiscount = -2.0
               break;
             case "FRIDAY":
               break;
             case "SATURDAY":
             case "SUNDAY":
-              discountToAdd = 1.5
+              weekdayDiscount = 1.5
               break;
           }
-          return discountToAdd;
+          return weekdayDiscount;
     }
 
     /**
