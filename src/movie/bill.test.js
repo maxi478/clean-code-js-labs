@@ -136,6 +136,16 @@ test('weekendShouldAddToPrice', ()=> {
     expect(billPrice).toBe(12.5);
 });
 
+test('balconyShouldAddToPrice', ()=> {
+    bill.startPurchase(100, 'MONDAY', true, false);
+    bill.addTicket(18,false);
+
+    
+    let billPrice = bill.finishPurchase();
+
+    expect(billPrice).toBe(13.0);
+});
+
 
 
 

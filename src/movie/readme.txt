@@ -12,13 +12,9 @@ Exceptions:
 
 - 3D movie: add $3.00 per ticket. / 
 - Over-length (more than 120 minutes): add $1.50 per ticket. / 
-<<<<<<< HEAD
 - Special Movie Day (Thursday, but does not apply if group-pricing): subtract $2.00 per ticket. /
-=======
-- Special Movie Day (Thursday, but does not apply if group-pricing): subtract $2.00 per ticket.
->>>>>>> 7aeaeea5b44ffc7c31d5345b693676624e41da82
-- Weekends: add $1.50 per ticket.
-- Balcony Seating: add $2.00 per ticket.
+- Weekends: add $1.50 per ticket. / 
+- Balcony Seating: add $2.00 per ticket. /
 
 
 Example usage of Bill (in pseudo code):
