@@ -38,8 +38,8 @@ class Bill {
         let baseCalculator = new BaseCalculator(defaultPrice, weekdayDiscount);
         let basePrice = baseCalculator.calculateBasePrice();
 
-        let variableCalculator = new ExtraChargeCalculator(this.threeD, this.runtime, this.balcony);
-        let variablePrice = variableCalculator.calculateVariablePrice();
+        let extraChargeCalculator = new ExtraChargeCalculator(this.threeD, this.runtime, this.balcony);
+        let variablePrice = extraChargeCalculator.calculateVariablePrice();
 
         this.ticketBasePrices.push(basePrice);
         this.variablePrices.push(variablePrice);
