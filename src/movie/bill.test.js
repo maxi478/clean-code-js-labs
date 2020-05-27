@@ -38,6 +38,16 @@ test('multipleGeneralAdmissionsShouldEqualDefaultPrice', () => {
     expect(billPrice).toBe(22.0);
 });
 
+test('multipleDifferentAdmissionsShouldEqualCorrectBillTotal', () => {
+    bill.startPurchase(140, 'WEDNESDAY', false, true);
+    bill.addTicket(18, false); 
+    bill.addTicket(12, true); 
+    bill.addTicket(67, false); 
+
+    let billPrice = bill.finishPurchase();
+    expect(billPrice).toBe(36.0);
+});
+
 test('_3DShouldAddTobillPrice', () => {
     bill.startPurchase(100, 'WEDNESDAY', false, true);
     bill.addTicket(18, false);
@@ -69,16 +79,16 @@ test('seniorCitizenOver65ShouldHaveDiscount', () => {
 
 test('childrenUnder13ShouldHaveDiscount', () => {
     bill.startPurchase(100, 'WEDNESDAY', false, false);
-    bill.addTicket(12,false);
+    bill.addTicket(12, false);
 
     let billPrice = bill.finishPurchase();
 
     expect(billPrice).toBe(5.5);
 });
 
-test('groupsOf20ShouldHaveDiscount', ()=> {
+test('groupsOf20ShouldHaveDiscount', () => {
     bill.startPurchase(100, 'WEDNESDAY', false, false);
-    for(let i = 0; i < 20; i++){
+    for (let i = 0; i < 20; i++) {
         bill.addTicket(18, false);
     }
     let billPrice = bill.finishPurchase();
@@ -86,9 +96,9 @@ test('groupsOf20ShouldHaveDiscount', ()=> {
     expect(billPrice).toBe(120.0);
 });
 
-test('groupsOver20ShouldHaveDiscount', ()=> {
+test('groupsOver20ShouldHaveDiscount', () => {
     bill.startPurchase(100, 'WEDNESDAY', false, false);
-    for(let i = 0; i < 21; i++){
+    for (let i = 0; i < 21; i++) {
         bill.addTicket(18, false);
     }
     let billPrice = bill.finishPurchase();
@@ -96,25 +106,25 @@ test('groupsOver20ShouldHaveDiscount', ()=> {
     expect(billPrice).toBe(126.0);
 });
 
-test('moviesOver120MinutesShouldAddToPrice', ()=> {
+test('moviesOver120MinutesShouldAddToPrice', () => {
     bill.startPurchase(140, 'WEDNESDAY', false, false);
-    bill.addTicket(18,false);
+    bill.addTicket(18, false);
     let billPrice = bill.finishPurchase();
 
     expect(billPrice).toBe(12.5);
 });
 
-test('specialMovieDayShouldHaveDiscount', ()=> {
+test('specialMovieDayShouldHaveDiscount', () => {
     bill.startPurchase(100, 'THURSDAY', false, false);
-    bill.addTicket(18,false);
+    bill.addTicket(18, false);
     let billPrice = bill.finishPurchase();
 
     expect(billPrice).toBe(9.0);
 });
 
-test('specialMovieDayDiscountShouldNotApplyOnGroupPricing', ()=> {
+test('specialMovieDayDiscountShouldNotApplyOnGroupPricing', () => {
     bill.startPurchase(100, 'THURSDAY', false, false);
-    for(let i = 0; i < 21; i++){
+    for (let i = 0; i < 21; i++) {
         bill.addTicket(18, false);
     }
     let billPrice = bill.finishPurchase();
@@ -122,19 +132,19 @@ test('specialMovieDayDiscountShouldNotApplyOnGroupPricing', ()=> {
     expect(billPrice).toBe(126.0);
 });
 
-test('weekendShouldAddToPrice', ()=> {
+test('weekendShouldAddToPrice', () => {
     bill.startPurchase(100, 'SATURDAY', false, false);
-    bill.addTicket(18,false);
+    bill.addTicket(18, false);
 
-    
+
     let billPrice = bill.finishPurchase();
 
     expect(billPrice).toBe(12.5);
 });
 
-test('balconyShouldAddToPrice', ()=> {
+test('balconyShouldAddToPrice', () => {
     bill.startPurchase(100, 'MONDAY', true, false);
-    bill.addTicket(18,false);
+    bill.addTicket(18, false);
 
     let billPrice = bill.finishPurchase();
 

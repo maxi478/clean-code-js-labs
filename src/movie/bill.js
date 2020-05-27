@@ -1,5 +1,5 @@
 const { Ticket } = require('./ticket');
-const { BaseCalculator, WeekDayDiscountCalculator, VariablePriceCalculator } = require('./calculator');
+const { BaseCalculator, WeekDayDiscountCalculator, ExtraChargeCalculator } = require('./calculator');
 
 class Bill {
 
@@ -38,11 +38,17 @@ class Bill {
         let baseCalculator = new BaseCalculator(defaultPrice, weekdayDiscount);
         let basePrice = baseCalculator.calculateBasePrice();
 
-        let variableCalculator = new VariablePriceCalculator(this.threeD, this.runtime, this.balcony);
+        let variableCalculator = new ExtraChargeCalculator(this.threeD, this.runtime, this.balcony);
         let variablePrice = variableCalculator.calculateVariablePrice();
 
         this.ticketBasePrices.push(basePrice);
         this.variablePrices.push(variablePrice);
+    }
+
+    checkGroupDiscount() {
+        if (this.ticketBasePrices.length >= 20) {
+            this.ticketBasePrices = this.ticketBasePrices.map(x => 6.0);
+        }
     }
 
     /**
@@ -51,9 +57,7 @@ class Bill {
      * @return total in dollars.
      */
     finishPurchase() {
-        if (this.ticketBasePrices.length >= 20) {
-            this.ticketBasePrices = this.ticketBasePrices.map(x => 6.0);
-        }
+        this.checkGroupDiscount();
         return this.ticketBasePrices.reduce((a, b) => a + b, 0) + this.variablePrices.reduce((a, b) => a + b, 0);
     }
 };

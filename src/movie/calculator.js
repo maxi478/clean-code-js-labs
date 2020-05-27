@@ -37,7 +37,7 @@ class WeekDayDiscountCalculator {
     }
 }
 
-class VariablePriceCalculator {
+class ExtraChargeCalculator {
     constructor(threeD, runtime, balcony) {
         this.threeD = threeD;
         this.runtime = runtime;
@@ -45,18 +45,18 @@ class VariablePriceCalculator {
     }
 
     calculateVariablePrice() {
-        let variablePrice = 0.0;
+        let extraCharge = 0.0;
         if (this.threeD) {
-            variablePrice += 3.0;
+            extraCharge += 3.0;
         }
         if (this.runtime > 120) {
-            variablePrice += 1.5;
+            extraCharge += 1.5;
         }
         if (this.balcony) {
-            variablePrice += 2.0;
+            extraCharge += 2.0;
         }
-        return variablePrice;
+        return extraCharge;
     }
 }
 
-module.exports = { BaseCalculator, WeekDayDiscountCalculator, VariablePriceCalculator }
+module.exports = { BaseCalculator, WeekDayDiscountCalculator, ExtraChargeCalculator }
