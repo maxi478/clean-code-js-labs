@@ -5,19 +5,18 @@ class Bill {
      *
      * @param runtime   movie's runtime in minutes
      * @param dayOfWeek day of the week
-     * @param loge      true if seating category is 'loge')
+     * @param balcony      true if seating category is 'loge')
      * @param threeD    true if the movie's shown in 3D
      */
 
     ticketBasePrices = [];
     variablePrices =[];
 
-    startPurchase(runtime, dayOfWeek, loge, threeD) {
+    startPurchase(runtime, dayOfWeek, balcony, threeD) {
         this.runtime = runtime;
-        this.loge = loge;
+        this.balcony = balcony;
         this.threeD = threeD;
         this.dayOfWeek = dayOfWeek;
-
     }
 
     /**
@@ -43,7 +42,7 @@ class Bill {
         if(this.runtime > 120){
             extraPrice += 1.5;
         }
-        if(this.loge){
+        if(this.balcony){
             extraPrice +=2.0;
         }
         return extraPrice;
