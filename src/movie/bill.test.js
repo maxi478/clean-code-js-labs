@@ -6,10 +6,6 @@ beforeEach(() => {
     bill = new Bill();
 });
 
-test('Then something in the system should have changed', () => {
-    expect(false).toBeFalsy();
-});
-
 test('generalAdmissionShouldBeDefaultPrice', () => {
     // Arrange
     bill.startPurchase(100, 'WEDNESDAY', false, false);
@@ -140,7 +136,6 @@ test('balconyShouldAddToPrice', ()=> {
     bill.startPurchase(100, 'MONDAY', true, false);
     bill.addTicket(18,false);
 
-    
     let billPrice = bill.finishPurchase();
 
     expect(billPrice).toBe(13.0);

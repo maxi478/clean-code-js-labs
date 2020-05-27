@@ -11,18 +11,11 @@ class Bill {
 
     ticketBasePrices = [];
     variablePrices =[];
-    extraPrice = 0.0;
 
     startPurchase(runtime, dayOfWeek, loge, threeD) {
-        if (threeD) {
-            this.extraPrice += 3.0;
-        }
-        if(runtime > 120){
-            this.extraPrice += 1.5;
-        }
-        if(loge){
-            this.extraPrice +=2.0;
-        }
+        this.runtime = runtime;
+        this.loge = loge;
+        this.threeD = threeD;
         this.dayOfWeek = dayOfWeek;
 
     }
@@ -34,7 +27,31 @@ class Bill {
      * @param student true if the ticket buyer is a student
      */
     addTicket(age, student) {
+        let basePrice = this.calculateBasePrice(age,student);
+        let basePriceWeekDay = basePrice + this.calculateWeekDayDiscount();
+        let variablePriceAddOn = this.calculateVariablePriceAddOn();
+        
+        this.ticketBasePrices.push(basePriceWeekDay);
+        this.variablePrices.push(variablePriceAddOn);
+    }
+
+    calculateVariablePriceAddOn(){
+        let extraPrice = 0.0;
+        if (this.threeD) {
+            extraPrice += 3.0;
+        }
+        if(this.runtime > 120){
+            extraPrice += 1.5;
+        }
+        if(this.loge){
+            extraPrice +=2.0;
+        }
+        return extraPrice;
+    }
+
+    calculateBasePrice(age, student){
         let beginPrice = 11.0
+        
         if (student) {
             beginPrice = 8.0;
         }
@@ -44,25 +61,27 @@ class Bill {
         if (age <= 13) {
             beginPrice = 5.5;
         }
+        return beginPrice;
+    }
 
+    calculateWeekDayDiscount(){
+        let discountToAdd = 0;
         switch(this.dayOfWeek) {
             case "MONDAY":
             case "TUESDAY":
             case "WEDNESDAY":
               break;
             case "THURSDAY":
-              beginPrice -= 2.0
+              discountToAdd = -2.0
               break;
             case "FRIDAY":
               break;
             case "SATURDAY":
             case "SUNDAY":
-              beginPrice += 1.5
+              discountToAdd = 1.5
               break;
           }
-
-        this.ticketBasePrices.push(beginPrice);
-        this.variablePrices.push(this.extraPrice);
+          return discountToAdd;
     }
 
     /**
